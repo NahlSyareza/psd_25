@@ -26,12 +26,28 @@ ARCHITECTURE main_architecture OF main_entity IS
   SIGNAL s_box_inp : STD_LOGIC_VECTOR(127 DOWNTO 0) := (OTHERS => '0');
   SIGNAL s_box_outp : STD_LOGIC_VECTOR(127 DOWNTO 0) := (OTHERS => '0');
 
+  SIGNAL le_shift_start : STD_LOGIC := '0';
+  SIGNAL le_shift_done : STD_LOGIC := '0';
+  SIGNAL le_shift_inp : STD_LOGIC_VECTOR(127 DOWNTO 0) := (OTHERS => '0');
+  SIGNAL le_shift_outp : STD_LOGIC_VECTOR(127 DOWNTO 0) := (OTHERS => '0');
+
 BEGIN
 
   s_box : ENTITY work.s_box_entity
     PORT MAP(
       original_input => s_box_inp,
       altered_output => s_box_outp
+    );
+
+  le_shift : ENTITY work.le_shift_entity
+    PORT MAP(
+      start => le_shift_start,
+      clk => clk,
+      reset => reset,
+      original_input => le_shift_inp,
+      altered_output => le_shift_outp,
+      encrypt_or_decrypt => encrypt_or_decrypt,
+      is_done => le_shift_done
     );
 
   logic_proc : PROCESS (reset, clk)
@@ -43,7 +59,7 @@ BEGIN
     END IF;
   END PROCESS;
 
-  main_proc : PROCESS (current_state, opcode)
+  main_proc : PROCESS (current_state, opcode, le_shift_done)
   BEGIN
     next_state <= current_state;
 
@@ -66,9 +82,20 @@ BEGIN
         s_box_inp <= xor_outp;
         next_state <= ENCRYPT_SHIFT;
 
+      WHEN ENCRYPT_SHIFT =>
+        le_shift_start <= '1';
+        le_shift_inp <= s_box_outp;
+        IF le_shift_done = '1' THEN
+          next_state <= ENCRYPT_MIX;
+        END IF;
+
+      WHEN ENCRYPT_MIX =>
+        le_shift_start <= '0';
+        
+
         -- Start of Decryption
       WHEN DECRYPT_ROUND =>
-        encrypt_or_decrypt <= 1;
+        encrypt_or_decrypt <= '1';
         next_state <= DECRYPT_MIX;
 
       WHEN OTHERS =>
