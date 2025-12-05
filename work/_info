@@ -1,0 +1,174 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/Praktikum/Modul 9/tp
+Eboilerplate_entity
+Z0 w1764927848
+Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z4 dC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25
+Z5 8C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/s_box.vhd
+Z6 FC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/s_box.vhd
+l0
+L5
+Vi=P@JJESLeYW07RnEmg6R2
+!s100 ;e6E^Fedn0>mnM8;614X[1
+Z7 OV;C;10.5b;63
+32
+!s110 1764927868
+!i10b 1
+!s108 1764927868.000000
+Z8 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/s_box.vhd|
+Z9 !s107 C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/s_box.vhd|
+!i113 1
+Z10 o-work work -2002 -explicit
+Z11 tExplicit 1 CvgOpt 0
+Aboilerplate_architecture
+R2
+R3
+DEx4 work 18 boilerplate_entity 0 22 ?Zh<O_80;@zZiiYb?WOad1
+l19
+L14
+V7;W8RiMD6hfnlLi0LcdK=0
+!s100 DPPa1HNXe_`XYlHBH0XH20
+R7
+32
+!s110 1764923910
+!i10b 1
+!s108 1764923910.000000
+Z12 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/simple.vhd|
+Z13 !s107 C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/simple.vhd|
+!i113 1
+R10
+R11
+Z14 FC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/simple.vhd
+Z15 8C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/simple.vhd
+Emain_entity
+Z16 w1764931229
+R1
+R2
+R3
+R4
+Z17 8C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vhd
+Z18 FC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vhd
+l0
+L5
+V?h0o1<XZDA>Tn1zOd02G^0
+!s100 0aL6?:KWEn?SIC325F^T33
+R7
+32
+Z19 !s110 1764931231
+!i10b 1
+Z20 !s108 1764931231.000000
+Z21 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vhd|
+Z22 !s107 C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vhd|
+!i113 1
+R10
+R11
+Amain_architecture
+R1
+R2
+R3
+DEx4 work 11 main_entity 0 22 ?h0o1<XZDA>Tn1zOd02G^0
+l22
+L16
+Vz=HT]_=S>bJ]z`U^:hb?G1
+!s100 ?I[ITYPaaz3e4nzcSo=j;3
+R7
+32
+R19
+!i10b 1
+R20
+R21
+R22
+!i113 1
+R10
+R11
+Es_box_entity
+Z23 w1764930717
+R1
+R2
+R3
+R4
+R5
+R6
+l0
+L5
+VMe2?6clg^cLbfQN7;kPAB1
+!s100 GjW^SAb4LLgRjj4i2k3DC3
+R7
+32
+Z24 !s110 1764931102
+!i10b 1
+Z25 !s108 1764931102.000000
+R8
+R9
+!i113 1
+R10
+R11
+As_box_architecture
+R1
+R2
+R3
+DEx4 work 12 s_box_entity 0 22 Me2?6clg^cLbfQN7;kPAB1
+l45
+L12
+VLTkQPL8TlzSGDV]n9M7G:2
+!s100 zRHBH:`j7iSGUJ3G7hf5V0
+R7
+32
+R24
+!i10b 1
+R25
+R8
+R9
+!i113 1
+R10
+R11
+Esimple_entity
+w1764924688
+R2
+R3
+R4
+R15
+R14
+l0
+L4
+V41[ii25o<Hjn`VVdjM:fg1
+!s100 SRho2IP?21=3ooCSbFgZa1
+R7
+32
+!s110 1764927852
+!i10b 1
+!s108 1764927852.000000
+R12
+R13
+!i113 1
+R10
+R11
+Asimple_architecture
+R2
+R3
+DEx4 work 13 simple_entity 0 22 `7^ZlA4X>YCRd^61Z2CId1
+l19
+L14
+VIElSd[K9;CSJ[ho@694Vg0
+!s100 [M^U3DWKk<fFY_4=LWm7h1
+R7
+32
+!s110 1764924021
+!i10b 1
+!s108 1764924021.000000
+R12
+R13
+!i113 1
+R10
+R11
+w1764924392
