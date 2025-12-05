@@ -51,7 +51,7 @@ R11
 Z14 FC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/simple.vhd
 Z15 8C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/simple.vhd
 Emain_entity
-Z16 w1764931229
+Z16 w1764934483
 R1
 R2
 R3
@@ -60,27 +60,28 @@ Z17 8C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vh
 Z18 FC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vhd
 l0
 L5
-V?h0o1<XZDA>Tn1zOd02G^0
-!s100 0aL6?:KWEn?SIC325F^T33
+VPY^f:Lfmo8M2I<GBQzZOc3
+!s100 i2zh:Kik3lfje2FWG64nz3
 R7
 32
-Z19 !s110 1764931231
+Z19 !s110 1764934485
 !i10b 1
-Z20 !s108 1764931231.000000
+Z20 !s108 1764934484.000000
 Z21 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vhd|
 Z22 !s107 C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vhd|
 !i113 1
 R10
 R11
 Amain_architecture
+Z23 DEx4 work 12 s_box_entity 0 22 Me2?6clg^cLbfQN7;kPAB1
 R1
 R2
 R3
-DEx4 work 11 main_entity 0 22 ?h0o1<XZDA>Tn1zOd02G^0
-l22
+Z24 DEx4 work 11 main_entity 0 22 PY^f:Lfmo8M2I<GBQzZOc3
+l25
 L16
-Vz=HT]_=S>bJ]z`U^:hb?G1
-!s100 ?I[ITYPaaz3e4nzcSo=j;3
+VmZH?d?`XLc1<9Z=lS@Y[z1
+!s100 [>VPeZiJNWPg0h55:HYlm2
 R7
 32
 R19
@@ -92,7 +93,7 @@ R22
 R10
 R11
 Es_box_entity
-Z23 w1764930717
+Z25 w1764930717
 R1
 R2
 R3
@@ -105,9 +106,9 @@ VMe2?6clg^cLbfQN7;kPAB1
 !s100 GjW^SAb4LLgRjj4i2k3DC3
 R7
 32
-Z24 !s110 1764931102
+Z26 !s110 1764934484
 !i10b 1
-Z25 !s108 1764931102.000000
+R20
 R8
 R9
 !i113 1
@@ -117,16 +118,16 @@ As_box_architecture
 R1
 R2
 R3
-DEx4 work 12 s_box_entity 0 22 Me2?6clg^cLbfQN7;kPAB1
+R23
 l45
 L12
 VLTkQPL8TlzSGDV]n9M7G:2
 !s100 zRHBH:`j7iSGUJ3G7hf5V0
 R7
 32
-R24
+R26
 !i10b 1
-R25
+R20
 R8
 R9
 !i113 1
