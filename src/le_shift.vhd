@@ -5,17 +5,17 @@ USE IEEE.NUMERIC_STD.ALL;
 ENTITY le_shift_entity IS
   PORT (
     clk : IN STD_LOGIC;
-    reset : IN STD_LOGIC; -- := '0';
-    start : IN STD_LOGIC := '0';
-    original_input : IN STD_LOGIC_VECTOR(127 DOWNTO 0) := (OTHERS => '0'); -- := "11001111011111100111111100110101111111100010011010010100001011001000001000110010110101010101100001100010010100110101100110100001";
-    altered_output : OUT STD_LOGIC_VECTOR(127 DOWNTO 0) := (OTHERS => '0');
-    encrypt_or_decrypt : IN STD_LOGIC; -- := '0';
-    is_done : OUT STD_LOGIC
+    reset : IN STD_LOGIC;
+    enable : IN STD_LOGIC;
+    original_input : IN STD_LOGIC_VECTOR(127 DOWNTO 0); -- := "11001111011111100111111100110101111111100010011010010100001011001000001000110010110101010101100001100010010100110101100110100001";
+    altered_output : OUT STD_LOGIC_VECTOR(127 DOWNTO 0);
+    encrypt_or_decrypt : IN STD_LOGIC;
+    done : OUT STD_LOGIC
   );
 END le_shift_entity;
 
 ARCHITECTURE le_shift_architecture OF le_shift_entity IS
-  TYPE le_shift_states IS (IDLE, LOAD, SHIFT, STITCH, DONE);
+  TYPE le_shift_states IS (IDLE, LOAD, SHIFT, STITCH, FINAL);
   SIGNAL current_state, next_state : le_shift_states;
 
   SIGNAL first_row : STD_LOGIC_VECTOR(31 DOWNTO 0);
@@ -29,11 +29,11 @@ ARCHITECTURE le_shift_architecture OF le_shift_entity IS
   SIGNAL fourth_col : STD_LOGIC_VECTOR(31 DOWNTO 0);
 BEGIN
 
-  logic_proc : PROCESS (reset, clk)
+  logic_proc : PROCESS (reset, clk, enable)
   BEGIN
     IF reset = '1' THEN
       current_state <= IDLE;
-    ELSIF rising_edge(clk) AND start = '1' THEN
+    ELSIF rising_edge(clk) AND enable = '1' THEN
       current_state <= next_state;
     END IF;
   END PROCESS;
@@ -42,7 +42,7 @@ BEGIN
   BEGIN
     CASE (current_state) IS
       WHEN IDLE =>
-        is_done <= '0';
+        done <= '0';
         next_state <= LOAD;
 
       WHEN LOAD =>
@@ -69,17 +69,17 @@ BEGIN
         second_col <= first_row(23 DOWNTO 16) & second_row(23 DOWNTO 16) & third_row(23 DOWNTO 16) & fourth_row(23 DOWNTO 16);
         third_col <= first_row(15 DOWNTO 8) & second_row(15 DOWNTO 8) & third_row(15 DOWNTO 8) & fourth_row(15 DOWNTO 8);
         fourth_col <= first_row(7 DOWNTO 0) & second_row(7 DOWNTO 0) & third_row(7 DOWNTO 0) & fourth_row(7 DOWNTO 0);
-        next_state <= DONE;
+        next_state <= FINAL;
 
-      WHEN DONE =>
+      WHEN FINAL =>
         altered_output <= first_col & second_col & third_col & fourth_col;
-        is_done <= '1';
+        done <= '1';
         IF reset = '1' THEN
           next_state <= IDLE;
         END IF;
 
       WHEN OTHERS =>
-        is_done <= '0';
+        done <= '0';
         next_state <= IDLE;
 
     END CASE;

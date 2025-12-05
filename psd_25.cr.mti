@@ -7,6 +7,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity s_box_entity
 -- Compiling architecture s_box_architecture of s_box_entity
 
+} {} {}} {C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/el_mixer.vhd} {1 {vcom -work work -2002 -explicit -stats=none {C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/el_mixer.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity el_mixer_entity
+-- Compiling architecture el_mixer_architecture of el_mixer_entity
+
 } {} {}} {C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/le_shift.vhd} {1 {vcom -work work -2002 -explicit -stats=none {C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/le_shift.vhd}
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
