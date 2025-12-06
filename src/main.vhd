@@ -7,7 +7,7 @@ ENTITY main_entity IS
     clk : IN STD_LOGIC;
     reset : IN STD_LOGIC;
     opcode : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-    inp : IN STD_LOGIC_VECTOR(127 DOWNTO 0) := x"6D6F746865726675636B657200000000";
+    inp : IN STD_LOGIC_VECTOR(127 DOWNTO 0) := x"48656C6C6F20576F726C642121212121"; -- "Hello World!!!!!"
     key : IN STD_LOGIC_VECTOR(127 DOWNTO 0) := x"2B7E151628AED2A6ABF7158809CF4F3C";
     outp : OUT STD_LOGIC_VECTOR(127 DOWNTO 0)
   );
@@ -36,12 +36,29 @@ ARCHITECTURE main_architecture OF main_entity IS
   SIGNAL el_mixer_inp : STD_LOGIC_VECTOR(127 DOWNTO 0);
   SIGNAL el_mixer_outp : STD_LOGIC_VECTOR(127 DOWNTO 0);
 
+  SIGNAL key_exp_enable : STD_LOGIC;
+  SIGNAL key_exp_done : STD_LOGIC;
+  SIGNAL round_num : INTEGER RANGE 0 TO 10;
+  SIGNAL current_round_key : STD_LOGIC_VECTOR(127 DOWNTO 0);
+
 BEGIN
 
   s_box : ENTITY work.s_box_entity
     PORT MAP(
       original_input => s_box_inp,
       altered_output => s_box_outp
+    );
+
+  -- menggunakan komponen key_expansion
+  key_exp : ENTITY work.key_expansion_entity
+    PORT MAP(
+      clk => clk,
+      reset => reset,
+      enable => key_exp_enable,
+      original_key => key,
+      round_num => round_num,
+      round_key => current_round_key,
+      done => key_exp_done
     );
 
   le_shift : ENTITY work.le_shift_entity
