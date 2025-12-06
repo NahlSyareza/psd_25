@@ -14,14 +14,36 @@ ENTITY main_entity IS
 END main_entity;
 
 ARCHITECTURE main_architecture OF main_entity IS
-  TYPE united_states IS (IDLE, ENCRYPT_XOR, ENCRYPT_SUB, ENCRYPT_SHIFT, ENCRYPT_MIX, ENCRYPT_ROUND, DECRYPT_ROUND, DECRYPT_MIX, DECRYPT_SHIFT, DECRYPT_SUB, DECRYPT_XOR, FINAL);
+  TYPE united_states IS (
+    IDLE,
+    FETCH,
+    DECODE,
+    ENCRYPT_INIT,
+    ENCRYPT_SUB,
+    ENCRYPT_SHIFT,
+    ENCRYPT_MIX,
+    ENCRYPT_ROUND,
+    ENCRYPT_FINAL,
+    DECRYPT_INIT,
+    DECRYPT_ROUND,
+    DECRYPT_MIX,
+    DECRYPT_SHIFT,
+    DECRYPT_SUB,
+    DECRYPT_FINAL,
+    FINAL
+  );
+
   SIGNAL current_state, next_state : united_states;
 
   -- 0 Encrypt
   -- 1 Decrypt
   SIGNAL encrypt_or_decrypt : STD_LOGIC;
 
-  SIGNAL xor_outp : STD_LOGIC_VECTOR(127 DOWNTO 0);
+  SIGNAL oi_buffer : STD_LOGIC_VECTOR(127 DOWNTO 0);
+  -- SIGNAL k_buffer : STD_LOGIC_VECTOR(127 DOWNTO 0);
+  -- SIGNAL ao_buffer : STD_LOGIC_VECTOR(127 DOWNTO 0);
+
+  -- SIGNAL xor_outp : STD_LOGIC_VECTOR(127 DOWNTO 0);
 
   SIGNAL s_box_inp : STD_LOGIC_VECTOR(127 DOWNTO 0);
   SIGNAL s_box_outp : STD_LOGIC_VECTOR(127 DOWNTO 0);
@@ -30,18 +52,37 @@ ARCHITECTURE main_architecture OF main_entity IS
   SIGNAL le_shift_done : STD_LOGIC;
   SIGNAL le_shift_inp : STD_LOGIC_VECTOR(127 DOWNTO 0);
   SIGNAL le_shift_outp : STD_LOGIC_VECTOR(127 DOWNTO 0);
+  SIGNAL le_shift_dbg : INTEGER;
 
   SIGNAL el_mixer_enable : STD_LOGIC;
   SIGNAL el_mixer_done : STD_LOGIC;
   SIGNAL el_mixer_inp : STD_LOGIC_VECTOR(127 DOWNTO 0);
   SIGNAL el_mixer_outp : STD_LOGIC_VECTOR(127 DOWNTO 0);
+  SIGNAL el_mixer_dbg : INTEGER;
+
+  SIGNAL key_round_inp : STD_LOGIC_VECTOR(127 DOWNTO 0);
+  SIGNAL key_round_outp : STD_LOGIC_VECTOR(127 DOWNTO 0);
+  SIGNAL key_round_sel : INTEGER := 1;
+  SIGNAL key_round_kagi : STD_LOGIC_VECTOR(127 DOWNTO 0);
 
 BEGIN
+
+  key_round : ENTITY work.key_round_entity
+    PORT MAP(
+      original_input => key_round_inp,
+      altered_output => key_round_outp,
+      clk => clk,
+      reset => reset,
+      round_sel => key_round_sel,
+      original_key => key,
+      round_key_out => key_round_kagi
+    );
 
   s_box : ENTITY work.s_box_entity
     PORT MAP(
       original_input => s_box_inp,
-      altered_output => s_box_outp
+      altered_output => s_box_outp,
+      encrypt_or_decrypt => encrypt_or_decrypt
     );
 
   le_shift : ENTITY work.le_shift_entity
@@ -52,7 +93,8 @@ BEGIN
       original_input => le_shift_inp,
       altered_output => le_shift_outp,
       encrypt_or_decrypt => encrypt_or_decrypt,
-      done => le_shift_done
+      done => le_shift_done,
+      debug_states => le_shift_dbg
     );
 
   el_mixer : ENTITY work.el_mixer_entity
@@ -62,7 +104,8 @@ BEGIN
       enable => el_mixer_enable,
       original_input => el_mixer_inp,
       altered_output => el_mixer_outp,
-      done => el_mixer_done
+      done => el_mixer_done,
+      debug_states => el_mixer_dbg
     );
 
   logic_proc : PROCESS (reset, clk)
@@ -80,44 +123,78 @@ BEGIN
 
     CASE (current_state) IS
       WHEN IDLE =>
-        IF opcode = "0001" THEN
-          next_state <= ENCRYPT_XOR;
+        le_shift_enable <= '0';
+        el_mixer_enable <= '0';
+        next_state <= FETCH;
+      WHEN FETCH =>
+        next_state <= DECODE;
+
+      WHEN DECODE =>
+        IF opcode = "0000" THEN
+          encrypt_or_decrypt <= '0';
+          next_state <= ENCRYPT_INIT;
+        ELSIF opcode = "0001" THEN
+          encrypt_or_decrypt <= '0';
+          next_state <= ENCRYPT_SUB;
         ELSIF opcode = "0010" THEN
+          encrypt_or_decrypt <= '0';
+          next_state <= ENCRYPT_SHIFT;
+        ELSIF opcode = "0011" THEN
+          encrypt_or_decrypt <= '0';
+          next_state <= ENCRYPT_MIX;
+        ELSIF opcode <= "0100" THEN
+          encrypt_or_decrypt <= '0';
+          next_state <= ENCRYPT_ROUND;
+        ELSIF opcode <= "0101" THEN
+          encrypt_or_decrypt <= '0';
+          next_state <= ENCRYPT_FINAl;
+        ELSIF opcode = "1000" THEN
+          encrypt_or_decrypt <= '1';
           next_state <= DECRYPT_ROUND;
         ELSE
           next_state <= IDLE;
         END IF;
 
-      WHEN ENCRYPT_XOR =>
-        encrypt_or_decrypt <= '0';
-        xor_outp <= inp XOR key;
-        next_state <= ENCRYPT_SUB;
+      WHEN ENCRYPT_INIT =>
+        oi_buffer <= inp XOR key;
+        key_round_sel <= 1;
+        next_state <= IDLE;
+
+      WHEN ENCRYPT_FINAL =>
+        oi_buffer <= key_round_outp;
+        outp <= key_round_outp;
+        key_round_sel <= 1 + key_round_sel;
+        next_state <= IDLE;
 
       WHEN ENCRYPT_SUB =>
-        s_box_inp <= xor_outp;
-        next_state <= ENCRYPT_SHIFT;
+        s_box_inp <= oi_buffer;
+        next_state <= IDLE;
 
       WHEN ENCRYPT_SHIFT =>
         le_shift_enable <= '1';
         le_shift_inp <= s_box_outp;
         IF le_shift_done = '1' THEN
-          next_state <= ENCRYPT_MIX;
+          next_state <= IDLE;
         END IF;
 
       WHEN ENCRYPT_MIX =>
-        le_shift_enable <= '0';
         el_mixer_enable <= '1';
         el_mixer_inp <= le_shift_outp;
         IF el_mixer_done = '1' THEN
-          next_state <= ENCRYPT_ROUND;
+          next_state <= IDLE;
         END IF;
 
       WHEN ENCRYPT_ROUND =>
-        next_state <= FINAL;
+        IF key_round_sel = 10 THEN
+          key_round_inp <= le_shift_outp;
+        ELSE
+          key_round_inp <= el_mixer_outp;
+        END IF;
+        next_state <= IDLE;
 
         -- Start of Decryption
       WHEN DECRYPT_ROUND =>
-        encrypt_or_decrypt <= '1';
+
         next_state <= DECRYPT_MIX;
 
       WHEN OTHERS =>
