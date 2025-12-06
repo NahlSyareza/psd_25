@@ -51,7 +51,7 @@ R11
 Z14 FC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/simple.vhd
 Z15 8C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/simple.vhd
 Eel_mixer_entity
-Z16 w1764952586
+Z16 w1765029315
 R1
 R2
 R3
@@ -59,14 +59,14 @@ R4
 Z17 8C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/el_mixer.vhd
 Z18 FC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/el_mixer.vhd
 l0
-L5
-V^b;c1@=f0XlS8VF1]92o^2
-!s100 2dS;8<7[Eh?VL@VFIT3hM3
+L7
+VRHGSHRZXm?[dB9@`Bb6EP1
+!s100 >7l>mCI[zf<zi_]2z0k9P0
 R7
 32
-Z19 !s110 1764953420
+Z19 !s110 1765029373
 !i10b 1
-Z20 !s108 1764953420.000000
+Z20 !s108 1765029373.000000
 Z21 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/el_mixer.vhd|
 Z22 !s107 C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/el_mixer.vhd|
 !i113 1
@@ -76,11 +76,11 @@ Ael_mixer_architecture
 R1
 R2
 R3
-Z23 DEx4 work 15 el_mixer_entity 0 22 ^b;c1@=f0XlS8VF1]92o^2
-l50
-L16
-Z24 V?9HEmVGARhPc@@6g]1OUj3
-Z25 !s100 8QeoAee<_T:HY><B`GQzK3
+Z23 DEx4 work 15 el_mixer_entity 0 22 RHGSHRZXm?[dB9@`Bb6EP1
+l53
+L18
+Z24 VSc5nAb:zMKNePP?>H8P5H2
+Z25 !s100 EzVi53niJfcMo8QlJTWom2
 R7
 32
 R19
@@ -133,7 +133,7 @@ R30
 R10
 R11
 Emain_entity
-Z32 w1764953396
+Z32 w1765029370
 R1
 R2
 R3
@@ -142,8 +142,8 @@ Z33 8C:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vh
 Z34 FC:/Users/Nahl Syareza Rahidra/Documents/Kuliah/PSD Smurf/psd_25/src/main.vhd
 l0
 L5
-V<EhTIh3`PW_GE7G7?@=FW3
-!s100 47eO5iEVIhK]ia5BPOVhW2
+VP8onQ=aLj13CnKd[Qam@53
+!s100 0Sj]EkNIMBUOYZ9aK3[5b0
 R7
 32
 R19
@@ -161,11 +161,11 @@ Z37 DEx4 work 12 s_box_entity 0 22 Me2?6clg^cLbfQN7;kPAB1
 R1
 R2
 R3
-DEx4 work 11 main_entity 0 22 <EhTIh3`PW_GE7G7?@=FW3
-l39
+DEx4 work 11 main_entity 0 22 P8onQ=aLj13CnKd[Qam@53
+l44
 L16
-VGld8m78Oza=cD_SORWQO21
-!s100 Bh5HSX<jBG[mT8UJzU1_@0
+VAz@ncG^hAK<>A9=94l]5L3
+!s100 QlPP?5@@`JeDXS8B2@L@P1
 R7
 32
 R19
@@ -192,7 +192,7 @@ R7
 32
 R19
 !i10b 1
-R20
+Z39 !s108 1765029372.000000
 R8
 R9
 !i113 1
@@ -211,7 +211,7 @@ R7
 32
 R19
 !i10b 1
-R20
+R39
 R8
 R9
 !i113 1

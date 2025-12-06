@@ -36,29 +36,12 @@ ARCHITECTURE main_architecture OF main_entity IS
   SIGNAL el_mixer_inp : STD_LOGIC_VECTOR(127 DOWNTO 0);
   SIGNAL el_mixer_outp : STD_LOGIC_VECTOR(127 DOWNTO 0);
 
-  SIGNAL key_exp_enable : STD_LOGIC;
-  SIGNAL key_exp_done : STD_LOGIC;
-  SIGNAL round_num : INTEGER RANGE 0 TO 10;
-  SIGNAL current_round_key : STD_LOGIC_VECTOR(127 DOWNTO 0);
-
 BEGIN
 
   s_box : ENTITY work.s_box_entity
     PORT MAP(
       original_input => s_box_inp,
       altered_output => s_box_outp
-    );
-
-  -- menggunakan komponen key_expansion
-  key_exp : ENTITY work.key_expansion_entity
-    PORT MAP(
-      clk => clk,
-      reset => reset,
-      enable => key_exp_enable,
-      original_key => key,
-      round_num => round_num,
-      round_key => current_round_key,
-      done => key_exp_done
     );
 
   le_shift : ENTITY work.le_shift_entity
