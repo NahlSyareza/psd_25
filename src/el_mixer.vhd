@@ -11,7 +11,9 @@ ENTITY el_mixer_entity IS
     enable : IN STD_LOGIC;
     original_input : IN STD_LOGIC_VECTOR(127 DOWNTO 0);
     altered_output : OUT STD_LOGIC_VECTOR(127 DOWNTO 0);
+    debug_states : OUT INTEGER;
     done : OUT STD_LOGIC
+
   );
 END el_mixer_entity;
 
@@ -66,6 +68,7 @@ BEGIN
     CASE (current_state) IS
       WHEN IDLE =>
         done <= '0';
+        debug_states <= 0;
         next_state <= LOAD;
 
       WHEN LOAD =>
@@ -73,6 +76,7 @@ BEGIN
         col1 <= original_input(95 DOWNTO 64);
         col2 <= original_input(63 DOWNTO 32);
         col3 <= original_input(31 DOWNTO 0);
+        debug_states <= 1;
         next_state <= MIX;
 
       WHEN MIX =>
@@ -80,17 +84,20 @@ BEGIN
         mix1 <= mix_column(col1);
         mix2 <= mix_column(col2);
         mix3 <= mix_column(col3);
+        debug_states <= 2;
         next_state <= STITCH;
 
       WHEN STITCH =>
         altered_output <= mix0 & mix1 & mix2 & mix3;
+        debug_states <= 3;
         next_state <= FINAL;
 
       WHEN FINAL =>
+        debug_states <= 4;
         done <= '1';
-        IF reset = '1' THEN
-          next_state <= IDLE;
-        END IF;
+        -- IF reset = '1' OR enable = '0' THEN
+        next_state <= IDLE;
+        -- END IF;
 
       WHEN OTHERS =>
         done <= '0';

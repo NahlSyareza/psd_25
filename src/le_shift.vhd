@@ -10,6 +10,7 @@ ENTITY le_shift_entity IS
     original_input : IN STD_LOGIC_VECTOR(127 DOWNTO 0); -- := "11001111011111100111111100110101111111100010011010010100001011001000001000110010110101010101100001100010010100110101100110100001";
     altered_output : OUT STD_LOGIC_VECTOR(127 DOWNTO 0);
     encrypt_or_decrypt : IN STD_LOGIC;
+    debug_states : OUT INTEGER;
     done : OUT STD_LOGIC
   );
 END le_shift_entity;
@@ -43,6 +44,7 @@ BEGIN
     CASE (current_state) IS
       WHEN IDLE =>
         done <= '0';
+        debug_states <= 0;
         next_state <= LOAD;
 
       WHEN LOAD =>
@@ -50,6 +52,7 @@ BEGIN
         second_row <= original_input(119 DOWNTO 112) & original_input(87 DOWNTO 80) & original_input(55 DOWNTO 48) & original_input(23 DOWNTO 16);
         third_row <= original_input(111 DOWNTO 104) & original_input(79 DOWNTO 72) & original_input(47 DOWNTO 40) & original_input(15 DOWNTO 8);
         fourth_row <= original_input(103 DOWNTO 96) & original_input(71 DOWNTO 64) & original_input(39 DOWNTO 32) & original_input(7 DOWNTO 0);
+        debug_states <= 1;
         next_state <= SHIFT;
 
       WHEN SHIFT =>
@@ -62,6 +65,7 @@ BEGIN
           third_row <= third_row(15 DOWNTO 0) & third_row(31 DOWNTO 16);
           fourth_row <= fourth_row(23 DOWNTO 0) & fourth_row(31 DOWNTO 24);
         END IF;
+        debug_states <= 2;
         next_state <= STITCH;
 
       WHEN STITCH =>
@@ -69,14 +73,16 @@ BEGIN
         second_col <= first_row(23 DOWNTO 16) & second_row(23 DOWNTO 16) & third_row(23 DOWNTO 16) & fourth_row(23 DOWNTO 16);
         third_col <= first_row(15 DOWNTO 8) & second_row(15 DOWNTO 8) & third_row(15 DOWNTO 8) & fourth_row(15 DOWNTO 8);
         fourth_col <= first_row(7 DOWNTO 0) & second_row(7 DOWNTO 0) & third_row(7 DOWNTO 0) & fourth_row(7 DOWNTO 0);
+        debug_states <= 3;
         next_state <= FINAL;
 
       WHEN FINAL =>
         altered_output <= first_col & second_col & third_col & fourth_col;
         done <= '1';
-        IF reset = '1' THEN
-          next_state <= IDLE;
-        END IF;
+        -- IF reset = '1' OR enable = '0' THEN
+        debug_states <= 4;
+        next_state <= IDLE;
+        -- END IF;
 
       WHEN OTHERS =>
         done <= '0';

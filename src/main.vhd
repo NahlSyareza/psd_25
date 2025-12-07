@@ -7,8 +7,8 @@ ENTITY main_entity IS
     clk : IN STD_LOGIC;
     reset : IN STD_LOGIC;
     opcode : IN STD_LOGIC_VECTOR(3 DOWNTO 0);
-    inp : IN STD_LOGIC_VECTOR(127 DOWNTO 0) := x"48656C6C6F20576F726C642121212121"; -- "Hello World!!!!!"
-    key : IN STD_LOGIC_VECTOR(127 DOWNTO 0) := x"2B7E151628AED2A6ABF7158809CF4F3C";
+    inp : IN STD_LOGIC_VECTOR(127 DOWNTO 0); -- := x"48656C6C6F20576F726C642121212121"; -- "Hello World!!!!!"
+    key : IN STD_LOGIC_VECTOR(127 DOWNTO 0); -- := x"2B7E151628AED2A6ABF7158809CF4F3C";
     outp : OUT STD_LOGIC_VECTOR(127 DOWNTO 0)
   );
 END main_entity;
@@ -160,17 +160,13 @@ BEGIN
         key_round_sel <= 1;
         next_state <= IDLE;
 
-      WHEN ENCRYPT_FINAL =>
-        oi_buffer <= key_round_outp;
-        outp <= key_round_outp;
-        key_round_sel <= 1 + key_round_sel;
-        next_state <= IDLE;
-
       WHEN ENCRYPT_SUB =>
+        outp <= oi_buffer;
         s_box_inp <= oi_buffer;
         next_state <= IDLE;
 
       WHEN ENCRYPT_SHIFT =>
+        outp <= s_box_outp;
         le_shift_enable <= '1';
         le_shift_inp <= s_box_outp;
         IF le_shift_done = '1' THEN
@@ -178,6 +174,7 @@ BEGIN
         END IF;
 
       WHEN ENCRYPT_MIX =>
+        outp <= le_shift_outp;
         el_mixer_enable <= '1';
         el_mixer_inp <= le_shift_outp;
         IF el_mixer_done = '1' THEN
@@ -185,11 +182,18 @@ BEGIN
         END IF;
 
       WHEN ENCRYPT_ROUND =>
+        outp <= el_mixer_outp;
         IF key_round_sel = 10 THEN
           key_round_inp <= le_shift_outp;
         ELSE
           key_round_inp <= el_mixer_outp;
         END IF;
+        next_state <= IDLE;
+
+      WHEN ENCRYPT_FINAL =>
+        oi_buffer <= key_round_outp;
+        outp <= key_round_outp;
+        key_round_sel <= 1 + key_round_sel;
         next_state <= IDLE;
 
         -- Start of Decryption
