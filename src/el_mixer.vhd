@@ -95,9 +95,7 @@ BEGIN
       WHEN FINAL =>
         debug_states <= 4;
         done <= '1';
-        -- IF reset = '1' OR enable = '0' THEN
         next_state <= IDLE;
-        -- END IF;
 
       WHEN OTHERS =>
         done <= '0';

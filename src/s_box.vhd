@@ -36,7 +36,7 @@ ARCHITECTURE s_box_architecture OF s_box_entity IS
   TYPE inv_s_box_array IS ARRAY (0 TO 255) OF STD_LOGIC_VECTOR(7 DOWNTO 0);
   CONSTANT inv_s_box : inv_s_box_array := (
     x"52", x"09", x"6A", x"D5", x"30", x"36", x"A5", x"38", x"BF", x"40", x"A3", x"9E", x"81", x"F3", x"D7", x"FB",
-    x"7C", x"E3", x"9A", x"82", x"28", x"D9", x"24", x"3B", x"24", x"3E", x"44", x"0C", x"15", x"60", x"42", x"4A",
+    x"7C", x"E3", x"39", x"82", x"9B", x"2F", x"FF", x"87", x"34", x"8E", x"43", x"44", x"C4", x"DE", x"E9", x"CB",
     x"54", x"7B", x"94", x"32", x"A6", x"C2", x"23", x"3D", x"EE", x"4C", x"95", x"0B", x"42", x"FA", x"C3", x"4E",
     x"08", x"2E", x"A1", x"66", x"28", x"D9", x"24", x"B2", x"76", x"5B", x"A2", x"49", x"6D", x"8B", x"D1", x"25",
     x"72", x"F8", x"F6", x"64", x"86", x"68", x"98", x"16", x"D4", x"A4", x"5C", x"CC", x"5D", x"65", x"B6", x"92",
@@ -79,7 +79,11 @@ BEGIN
   proc : PROCESS (original_input)
   BEGIN
     FOR i IN 0 TO 15 LOOP
-      s_box_val(i, original_input, altered_output);
+      IF encrypt_or_decrypt = '0' THEN
+        s_box_val(i, original_input, altered_output);
+      ELSE
+        inv_s_box_val(i, original_input, altered_output);
+      END IF;
     END LOOP;
   END PROCESS;
 
